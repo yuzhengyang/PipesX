@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipesX", "PipesX\PipesX.csproj", "{7A37042C-6A92-4BD8-8FDD-1186C3D4A9E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipesX.Child", "PipesX.Child\PipesX.Child.csproj", "{778526B4-2CD7-4FFC-95E9-DAAAAD7A9512}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipesX.Parent", "PipesX.Parent\PipesX.Parent.csproj", "{61B8799D-FA45-43DA-9897-A246A158F444}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A37042C-6A92-4BD8-8FDD-1186C3D4A9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A37042C-6A92-4BD8-8FDD-1186C3D4A9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A37042C-6A92-4BD8-8FDD-1186C3D4A9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A37042C-6A92-4BD8-8FDD-1186C3D4A9E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{778526B4-2CD7-4FFC-95E9-DAAAAD7A9512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{778526B4-2CD7-4FFC-95E9-DAAAAD7A9512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{778526B4-2CD7-4FFC-95E9-DAAAAD7A9512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{778526B4-2CD7-4FFC-95E9-DAAAAD7A9512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61B8799D-FA45-43DA-9897-A246A158F444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61B8799D-FA45-43DA-9897-A246A158F444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61B8799D-FA45-43DA-9897-A246A158F444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61B8799D-FA45-43DA-9897-A246A158F444}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
