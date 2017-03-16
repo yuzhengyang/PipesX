@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Named.Client
@@ -12,8 +13,9 @@ namespace Named.Client
     {
         static void Main(string[] args)
         {
-            Read();
+            //Read();
             //Write();
+            AsyncRead();
             Console.WriteLine("Press Enter to Exit.");
             Console.ReadLine();
         }
@@ -21,7 +23,9 @@ namespace Named.Client
         {
             using (NamedPipeClientStream pipeStream = new NamedPipeClientStream("testpipe"))
             {
+                Console.WriteLine("等待连接");
                 pipeStream.Connect();
+                Console.WriteLine("已连接");
                 //在client读取server端写的数据
                 using (StreamReader rdr = new StreamReader(pipeStream))
                 {
@@ -49,6 +53,40 @@ namespace Named.Client
                     }
                 }
             }
+        }
+
+        static int bufferSize = 6;
+        static byte[] buffer = new byte[bufferSize];
+        static NamedPipeClientStream pipeStream;
+        static async void AsyncRead()
+        {
+            pipeStream = new NamedPipeClientStream("testpipe");
+            Console.WriteLine("异步接收 等待连接");
+            pipeStream.Connect();
+            Console.WriteLine("已连接");
+            Console.WriteLine("Read:" + pipeStream.CanRead + " / Write:" + pipeStream.CanRead + " / Async:" + pipeStream.IsAsync);
+
+            int a = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            buffer.ToList().ForEach(x =>
+            {
+                Console.Write(x + " ");
+            });
+            int b = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            buffer.ToList().ForEach(x =>
+            {
+                Console.Write(x + " ");
+            });
+            int c = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            buffer.ToList().ForEach(x =>
+            {
+                Console.Write(x + " ");
+            });
+            int d = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            buffer.ToList().ForEach(x =>
+            {
+                Console.Write(x + " ");
+            });
+            Console.WriteLine("读取结束");
         }
     }
 }
