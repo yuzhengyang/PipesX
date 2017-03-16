@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Pipes;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,8 +19,6 @@ namespace PipesX.Child
         bool IsStart = false;
         object LockPipe = new object();
         NamedPipeClientStream PipeStream;
-        StreamWriter StreamWriter;
-        StreamReader StreamReader;
         public Form1()
         {
             InitializeComponent();
@@ -33,7 +32,7 @@ namespace PipesX.Child
             PipeName = TbPipeName.Text.Trim();
             if (PipeName != "")
             {
-                Go(PipeName);
+                Go2(PipeName);
             }
             else
             {
@@ -67,8 +66,37 @@ namespace PipesX.Child
         }
         private void Go(string pipeName)
         {
-            //Task.Factory.StartNew(() =>
-            //{
+            Task.Factory.StartNew(() =>
+            {
+                if (!IsStart)
+                {
+                    lock (LockPipe)
+                    {
+                        if (!IsStart)
+                        {
+                            IsStart = true;
+                            PipeStream = new NamedPipeClientStream(pipeName);
+                            Print("准备连接");
+                            PipeStream.Connect();
+                            Print("已连接");
+
+                            //PipeStream.BeginRead();
+                            using (StreamReader sr = new StreamReader(PipeStream))
+                            {
+                                string temp;
+                                while ((temp = sr.ReadLine()) != null)
+                                {
+                                    Print(temp);
+                                }
+                                Print("已停止");
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        private void Go2(string pipeName)
+        {
             if (!IsStart)
             {
                 lock (LockPipe)
@@ -77,42 +105,60 @@ namespace PipesX.Child
                     {
                         IsStart = true;
 
-                        PipeStream = new NamedPipeClientStream(pipeName);
-                        Print("准备连接");
-                        PipeStream.Connect();
-                        Print("已连接");
-                        StreamReader = new StreamReader(PipeStream);
-                        StreamWriter = new StreamWriter(PipeStream);
-                        StreamWriter.AutoFlush = true;
-
                         Task.Factory.StartNew(() =>
                         {
-                            string temp;
-                            while ((temp = StreamReader.ReadLine()) != null)
+                            PipeStream = new NamedPipeClientStream(pipeName);
+                            Print("准备连接");
+                            PipeStream.Connect();
+                            Print("已连接");
+                            using (StreamWriter sw = new StreamWriter(PipeStream))
                             {
-                                Print(temp);
+                                sw.AutoFlush = true;
+                                while (IsStart)
+                                {
+                                    string s = DateTime.Now.ToString();
+                                    sw.WriteLine(s);
+                                    Print("Send: " + s);
+                                    Thread.Sleep(1000);
+                                }
+                            }
+                            IsStart = false;
+                            PipeStream.Dispose();
+                        });
+                        Task.Factory.StartNew(() =>
+                        {
+                            using (StreamReader sr = new StreamReader(PipeStream))
+                            {
+                                string temp;
+                                while ((temp = sr.ReadLine()) != null)
+                                {
+                                    Print(temp);
+                                }
+                                Print("已停止");
                             }
                         });
-                        //while (IsStart)
-                        //{
-                        //    Print(StreamReader.ReadLine());
-                        //}
-                        Print("已停止");
-                        IsStart = false;
-                        //StreamReader.Dispose();
-                        //StreamWriter.Dispose();
-                        //PipeStream.Dispose();
                     }
                 }
             }
-            //});
         }
         private void Send(string s)
         {
-            if (IsStart && StreamWriter != null)
+            Task.Factory.StartNew(() =>
             {
-                StreamWriter.WriteLine(s);
-            }
+                if (IsStart && PipeStream.IsConnected)
+                {
+                    using (StreamWriter sw = new StreamWriter(PipeStream))
+                    {
+                        sw.AutoFlush = true;
+                        sw.WriteLine(s);
+                        Print("Send: " + s);
+                    }
+                }
+                else
+                {
+                    Print("未连接");
+                }
+            });
         }
     }
 }
