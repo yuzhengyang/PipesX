@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("PipesX.Parent")]
+[assembly: AssemblyTitle("PipesX.Server")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PipesX.Parent")]
+[assembly: AssemblyProduct("PipesX.Server")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("61b8799d-fa45-43da-9897-a246a158f444")]
+[assembly: Guid("f079859f-dd0e-44d7-8293-b9b7dded25d0")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

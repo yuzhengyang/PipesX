@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PipesX.Parent.Properties
+namespace PipesX.Server.Properties
 {
 
 
