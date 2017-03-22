@@ -55,37 +55,47 @@ namespace Named.Client
             }
         }
 
-        static int bufferSize = 6;
+        static int bufferSize = 20;
         static byte[] buffer = new byte[bufferSize];
         static NamedPipeClientStream pipeStream;
-        static async void AsyncRead()
+        static void AsyncRead()
         {
-            pipeStream = new NamedPipeClientStream("testpipe");
+            pipeStream = new NamedPipeClientStream(".","testpipe");
             Console.WriteLine("异步接收 等待连接");
             pipeStream.Connect();
             Console.WriteLine("已连接");
             Console.WriteLine("Read:" + pipeStream.CanRead + " / Write:" + pipeStream.CanRead + " / Async:" + pipeStream.IsAsync);
 
-            int a = await pipeStream.ReadAsync(buffer, 0, bufferSize);
-            buffer.ToList().ForEach(x =>
+            for (int i = 0; i < 10; i++)
             {
-                Console.Write(x + " ");
-            });
-            int b = await pipeStream.ReadAsync(buffer, 0, bufferSize);
-            buffer.ToList().ForEach(x =>
-            {
-                Console.Write(x + " ");
-            });
-            int c = await pipeStream.ReadAsync(buffer, 0, bufferSize);
-            buffer.ToList().ForEach(x =>
-            {
-                Console.Write(x + " ");
-            });
-            int d = await pipeStream.ReadAsync(buffer, 0, bufferSize);
-            buffer.ToList().ForEach(x =>
-            {
-                Console.Write(x + " ");
-            });
+                int a = pipeStream.Read(buffer, 0, bufferSize);
+                buffer.ToList().ForEach(x =>
+                {
+                    Console.Write(x + " ");
+                });
+                Console.WriteLine();
+            }
+
+            //int a = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            //buffer.ToList().ForEach(x =>
+            //{
+            //    Console.Write(x + " ");
+            //});
+            //int b = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            //buffer.ToList().ForEach(x =>
+            //{
+            //    Console.Write(x + " ");
+            //});
+            //int c = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            //buffer.ToList().ForEach(x =>
+            //{
+            //    Console.Write(x + " ");
+            //});
+            //int d = await pipeStream.ReadAsync(buffer, 0, bufferSize);
+            //buffer.ToList().ForEach(x =>
+            //{
+            //    Console.Write(x + " ");
+            //});
             Console.WriteLine("读取结束");
         }
     }

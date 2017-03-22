@@ -68,7 +68,7 @@ namespace Named.Server
                 while ((temp = Console.ReadLine()) != "stop")
                 {
                     exp[0]++;
-                    pipeStream.WriteAsync(exp, 0, exp.Length);
+                    pipeStream.Write(exp, 0, exp.Length);
                 }
             }
         }
